@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+
+<head>
+    <meta charset="utf-8" />
+    <title>Memorias</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="Preview page of Metronic Admin Theme #1 for statistics, charts, recent events and reports" name="description" />
+    <meta content="" name="author" />
+
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="{{ asset("global/plugins/font-awesome/css/font-awesome.min.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/simple-line-icons/simple-line-icons.min.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/bootstrap/css/bootstrap.min.css")}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/bootstrap-switch/css/bootstrap-switch.min.css") }}" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <link href="{{ asset("global/css/profile.min.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/css/error.min.css") }}" rel="stylesheet" type="text/css" />
+    <!-- END PAGE LEVEL PLUGINS -->
+
+    <!-- BEGIN THEME GLOBAL STYLES -->
+    <link href="{{ asset("global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css") }}" rel="stylesheet" id="style_components" type="text/css" />
+    <link href="{{ asset("global/css/components.min.css") }}" rel="stylesheet" id="style_components" type="text/css" />
+    <link href="{{ asset("global/css/plugins.min.css") }}" rel="stylesheet" type="text/css" />
+    <!-- END THEME GLOBAL STYLES -->
+    <!-- BEGIN THEME LAYOUT STYLES -->
+    <link href="{{ asset("layouts/layout/css/layout.min.css") }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset("layouts/layout/css/custom.min.css") }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset("global/css/carousel.css") }}" rel="stylesheet" type="text/css" />
+    <!-- END THEME LAYOUT STYLES -->
+    <link rel="shortcut icon" href="{{ asset("favicon.ico") }}" />
+
+    <style>
+        body{
+            background: #090909;
+            font-size: 20px;
+            font-family: 'Times New Roman', Times, serif !important;
+        }
+        *{
+            font-family: 'Times New Roman', Times, serif !important;
+        }
+        .glyphicon{
+            font-family: Glyphicons Halflings !important;
+        }
+        .fa{
+            font-family: FontAwesome !important;
+        }
+        .navbar-inverse{
+            background-color: #0D0D0D;
+            font-size: 18px;
+        }
+        .fa-asterisk {
+            color: #e7505a !important;
+            font-size:7px !important;
+            vertical-align: middle;
+        }
+        .loader {
+            border: 8px solid #f3f3f3 !important;
+            border-radius: 50% !important;
+            border-top: 8px solid #3498db !important;
+            width: 60px !important;
+            height: 60px !important;
+            -webkit-animation: spin 2s linear infinite !important;
+            animation: spin 2s linear infinite !important;
+            background: transparent !important;
+            margin: 0px !important;
+            display: none;
+        }
+        .panel-default{
+            border-color: #070707;
+        }
+        .panel-heading {
+            background: #020202 !important;
+            color: #fff !important;
+            border-bottom-color: #070707 !important ;
+            font-family: 'Times New Roman', Times, serif !important;
+
+        }
+
+        .list-group-item{
+            border-color: #070707 !important ;
+        }
+        .list-group-item.sub-item{
+            background: #050505 !important;
+        }
+
+        .panel-body, .list-group-item, .panel{
+            background: #0D0D0D !important;
+            color: #9e9e9e !important;
+            font-size: 18px !important;
+
+        }
+
+        li.dropdown.navbar-toggle.collapsed{
+            list-style: none;
+            margin: 0px;
+            padding: 4px 6px;
+            margin-right: 5px;
+            margin-top: 8px;
+            color: #fff;
+        }
+        li.dropdown.navbar-toggle.collapsed > .dropdown-toggle{
+            color:#fff;
+        }
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<!-- END HEAD -->
+{% set locale = app.request.locale %}
+    <body>
+    <div class="navbar-wrapper">
+        <div class="container-fluid">
+
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container">
+                    <div class="navbar-header">
+
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <li class="dropdown navbar-toggle collapsed">
+
+                            <a href="{{ path( path, { '_locale': 'es'}) }}" >
+                                <img src="{{ asset("esp.png") }}" alt="ESP" width="25" /></a>
+                            <a href="{{ path( path, { '_locale': 'en'}) }}"  >
+                                <img src="{{ asset("eng.png") }}" alt="ENG" width="25" /></a>
+
+                            {#<ul class="dropdown-menu">#}
+                                {#{% if locale == 'en' %}#}
+                                    {#<li><a href="{{ path("homepage", { '_locale': 'es'}) }}"><img src="{{ asset("esp.png") }}" alt="ESP" width="25" /> ESP</a></li>#}
+                                {#{% elseif locale == 'es' %}#}
+                                    {#<li><a href="{{ path("homepage", { '_locale': 'en'}) }}"><img src="{{ asset("eng.png") }}" alt="ENG" width="25" /> ENG</a></li>#}
+                                {#{% endif %}#}
+                            {#</ul>#}
+                        </li>
+                        <a class="navbar-brand" href="{{ path("homepage") }}">{{ 'menu.Title' | trans }}</a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="home"><a href="{{ path("ofertas") }}">{{ 'menu.Ofertas' | trans }}</a></li>
+                            <li class="contact"><a href="{{ path("contact") }}">{{ 'menu.Contact' | trans }}</a></li>
+                            {% if  app.user != null %}
+                                <li><a href="{{ path("seccions") }}">{{ 'menu.Backend' | trans }}</a></li>
+                                <li>
+                                    <a href="{{ path("usuario_logout")}}" onclick="if (!confirm({{ 'Close' | trans }})) {return false;}" >
+                                         {{ 'menu.Logoff' | trans }} </a>
+                                </li>
+
+                            {% endif %}
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right visible-lg-inline">
+                            <li><a href="{{ path( path, { '_locale': 'es'}) }}"><img src="{{ asset("esp.png") }}" alt="ESP" width="25" /></a></li>
+                            <li><a href="{{ path( path, { '_locale': 'en'}) }}"><img src="{{ asset("eng.png") }}" alt="ENG" width="25" /></a></li>
+
+
+                            {#<li class="dropdown">#}
+                                {#<a href="#" class="dropdown-toggle"  data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">#}
+                                    {#{% if locale == 'en' %} <img src="{{ asset("eng.png") }}" alt="ENG" width="25" />#}
+                                    {#{% elseif locale == 'es' %} <img src="{{ asset("esp.png") }}" alt="ESP" width="25" /> {% endif %} <span class="caret"></span> </a>#}
+                                {#<ul class="dropdown-menu">#}
+                                    {#{% if locale == 'en' %}#}
+                                        {#<li><a href="{{ path("homepage", { '_locale': 'es'}) }}"><img src="{{ asset("esp.png") }}" alt="ESP" width="25" /> ESP</a></li>#}
+                                    {#{% elseif locale == 'es' %}#}
+                                        {#<li><a href="{{ path("homepage", { '_locale': 'en'}) }}"><img src="{{ asset("eng.png") }}" alt="ENG" width="25" /> ENG</a></li>#}
+                                    {#{% endif %}#}
+                                {#</ul>#}
+                            {#</li>#}
+                        </ul>
+
+                    </div>
+
+                </div>
+            </nav>
+
+        </div>
+    </div>
+
+    {% block body %}{% endblock %}
+
+    <br/>
+    <br/>
+    <br/>
+    <!-- FOOTER -->
+    <div class="page-footer" style="position: fixed; bottom: 0px; background-color:#000;">
+        <div class="page-footer-inner" style=" text-align: right !important;"> 2018 © {{ 'carusel.title' | trans }} by
+            <a target="_blank" href="http://keenthemes.com">EKCompany</a> &nbsp;|&nbsp;
+
+        </div>
+        <div class="scroll-to-top" style="display: block;">
+            <span class="glyphicon glyphicon-circle-arrow-upicon-arrow-up"></span>
+        </div>
+    </div>
+
+    <script>
+        var questionClose = true;
+        var urlLogout = "{{ path("usuario_logout")}}";
+    </script>
+
+    <script src="{{ asset("global/plugins/jquery.min.js") }}" type="text/javascript"></script>
+
+    <script src="{{ asset("global/plugins/bootstrap/js/bootstrap.min.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/js.cookie.min.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/jquery-slimscroll/jquery.slimscroll.min.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/jquery.blockui.min.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/bootstrap-switch/js/bootstrap-switch.min.js") }}" type="text/javascript"></script>
+    <!-- END CORE PLUGINS -->
+
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <script src="{{ asset("global/plugins/morris/morris.min.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/bootstrap-fileinput/bootstrap-fileinput.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/jquery.sparkline.min.js") }}" type="text/javascript"></script>
+    
+    <script src="{{ asset("global/plugins/jquery-idle-timeout/jquery.idletimeout.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/jquery-idle-timeout/jquery.idletimer.js") }}" type="text/javascript"></script>  
+     <!--END PAGE LEVEL PLUGINS -->
+
+    <!-- BEGIN THEME GLOBAL SCRIPTS -->
+    <script src="{{ asset("global/scripts/app.js") }}" type="text/javascript"></script>
+    <!-- END THEME GLOBAL SCRIPTS -->
+
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="{{ asset("pages/scripts/dashboard.min.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("pages/scripts/profile.min.js") }}" type="text/javascript"></script>
+    
+    <script src="{{ asset("pages/scripts/ui-idletimeout.min.js") }}" type="text/javascript"></script>       
+    <!--END PAGE LEVEL SCRIPTS -->
+
+    <!-- BEGIN THEME LAYOUT SCRIPTS -->
+    <script src="{{ asset("layouts/layout/scripts/layout.min.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("layouts/global/scripts/quick-sidebar.min.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("layouts/global/scripts/quick-nav.min.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/scripts/jquery.fancybox.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/scripts/jquery.fancybox.pack.js") }}" type="text/javascript"></script>
+    <script>
+        //aqui pongo las variables globales staticas q se van usar en todo el proyecto
+        var lang ={
+            "sProcessing":     "Procesando...",
+            "sLengthMenu":     "Mostrar _MENU_ registros",
+            "sZeroRecords":    "No se encontraron resultados",
+            "sEmptyTable":     "Ningún dato disponible en esta tabla",
+            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Buscar:",
+            "sUrl":            "",
+            "sInfoThousands":  ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Último",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+
+        // Attach the event keypress to exclude the F5 refresh
+        $(document).bind('keypress', function(e) {
+            if (e.keyCode == 116){
+                questionClose = false;
+            }
+        });
+
+        // Attach the event click for all links in the page
+        $("a").bind("click", function() {
+            questionClose = false;
+        });
+
+         // Attach the event submit for all forms in the page
+        $("form").bind("submit", function() {
+            questionClose = false;
+        });
+
+        // Attach the event click for all inputs in the page
+        $("input[type=submit]").bind("click", function() {
+            questionClose = false;
+        });
+
+        $(window).bind("beforeunload", function() {
+            if(questionClose)
+            {
+                $.ajax(urlLogout).fail(function() {
+
+                    return 'ha ocurrido un error al cerrar la seccion';
+                })
+            }
+
+        })
+
+    </script>
+
+
+    {% block javascripts %}{% endblock %}
+
+
+
+    </body>
+</html>

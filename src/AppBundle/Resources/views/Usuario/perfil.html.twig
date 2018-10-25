@@ -1,0 +1,157 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block body -%}
+    <link href="{{ asset("global/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/bootstrap-modal/css/bootstrap-modal.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/bootstrap-modal/css/bootstrap-modal.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/bootstrap-toastr/toastr.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/jstree/dist/themes/default/style.min.css") }}" rel="stylesheet" type="text/css" />
+    <style>
+        #Loading  {
+            -webkit-animation: rotation 1s infinite linear;
+        }
+
+        @-webkit-keyframes rotation {
+            from {
+                -webkit-transform: rotate(359deg);
+            }
+            to {
+                -webkit-transform: rotate(0deg);
+            }
+        }
+    </style>
+    <div class="portlet light portlet-fit bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="icon-users  font-green " id="Icono" style="display: none;" ></i>
+                <i class="icon-refresh font-green" id="Loading" style="display: none"></i>
+                <span class="caption-subject font-green bold uppercase">Usuario</span>
+            </div>
+            <div class="actions" >
+                {#<button type="button" class="btn  btn-circle btn-sm green" data-toggle="modal" data-target="#newModal" onclick="clickNew()">Agregar nuevo</button>#}
+                {#<button type="button" class="btn  btn-circle btn-sm blue" onclick="EstadoActTodos(1)">Activar todos</button>#}
+                {#<button type="button" class="btn  btn-circle btn-sm red" onclick="EstadoActTodos(0)">Desactivar todos</button>#}
+            </div>
+        </div>
+
+        <div class="portlet-body">
+
+            <form id="editForm" method="post">
+                <div class="row">
+                    <div class="col-md-8 row">
+                        <div class="form-group col-md-12">
+                            <label class="control-label">Nombre <i class="fa fa-asterisk"></i></label>
+                            <input type="text" id="editNombre" name="editNombre" placeholder="Cambie el Nombre aqu&iacute;." class="form-control" value="{{ user.nombre }}" /> </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label">Apellidos <i class="fa fa-asterisk"></i></label>
+                            <input type="text" id="editApellidos" name="editApellidos" placeholder="Cambie los Apellidos aqu&iacute;." class="form-control" value="{{ user.apellidos }}" /> </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label">Usuario <i class="fa fa-asterisk"></i></label>
+                            <input type="text" id="editUsuario" name="editUsuario" placeholder="Cambie el Usuario aqu&iacute;." class="form-control" value="{{ user.user }}"/> </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label">Contrase&ntilde;a actual </label>
+                            <input type="password" class="form-control" id="editCurrentPass" name="editCurrentPass"/> </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label">Nueva Contrase&ntilde;a </label>
+                            <input type="password" class="form-control" id="editNewPass" name="editNewPass"/> </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label">Confirmar Nueva Contrase&ntilde;a </label>
+                            <input type="password" class="form-control" id="editConfPass" name="editConfPass"/> </div>
+
+                    </div>
+                    <div class="margiv-top-10 col-md-12" style="text-align: right">
+                        <button class="btn green" type="button" onclick="save()"> Guardar cambios </button>
+                    </div>
+
+                </div>
+            </form>
+
+
+        </div>
+
+    </div>
+
+    {% endblock %}
+
+{% block javascripts -%}
+    <script src="{{ asset("global/scripts/datatable.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/bootstrap-toastr/toastr.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/datatables/datatables.min.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js") }}" type="text/javascript"></script>
+
+    <script src="{{ asset("global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/bootstrap-modal/js/bootstrap-modal.js") }}" type="text/javascript"></script>
+
+    <script src="{{ asset("global/plugins/jstree/dist/jstree.min.js") }}" type="text/javascript"></script>
+
+    <script>
+
+        var errorBack = function(data) {
+            //Unauthorized access.
+            if (data.status === 401) window.location.href = "{{ path("usuario_login") }}";
+            else if(data.status === 402)
+            {
+                notificacionToastr("error", "Memorias Admin",
+                        "No se pudo efectuar la edici&oacute;n. Contrase&ntilde;a incorrecta");
+            }
+        };
+
+        $(function(){
+            $("#usuario").addClass("start active").find("a").append("<span class=\"selected\"></span>");
+        })
+
+        var save = function()
+        {
+            var nombre = $("#editNombre").val();
+            var apellidos = $("#editApellidos").val();
+            var usuario = $("#editUsuario").val();
+
+            var pass = $("#editCurrentPass").val();
+            var newpass = $("#editNewPass").val();
+            var confir = $("#editConfPass").val();
+
+            if(nombre.trim() == "" || apellidos.trim() == "" || usuario.trim() == "")
+            {
+                notificacionToastr("error", "Memorias Admin", "Inserte los campos obligatorios");
+                return;
+            }
+
+            if(pass.trim() != "" && newpass.trim() == "")
+            {
+                notificacionToastr("error", "Memorias Admin", "Inserte los campos de tipo contrase&ntilde;a");
+                return;
+            }
+            else if(pass.trim() != "" && newpass.trim() != confir.trim())
+            {
+                notificacionToastr("error", "Memorias Admin", "La nueva contrase&ntilde;a y la confirmaci&oacute;n no coinciden");
+                return;
+            }
+
+            notificacionToastr("info", "Memorias Admin", "Procesando solicitud...");
+
+            $.ajax({
+                type: "POST",
+                url: "{{ path("update_perfil") }}",
+                data: $("#editForm").serialize(),
+                success: function(data){
+                    if(data != null)
+                    {
+                        notificacionToastr("success", "Memorias Admin", "Cambios realizados correctamente");
+                        $("#editCurrentPass").val("");
+                        $("#editNewPass").val("");
+                        $("#editConfPass").val("");
+                        $("#usernameTop").html(nombre + " " + apellidos);
+                    }
+                },
+                error: errorBack
+            });
+        };
+
+    </script>
+
+{% endblock %}

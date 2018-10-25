@@ -1,0 +1,47 @@
+menu:
+    Title: 'Tienda Memorias'
+    Home: Inicio
+    Contact: 'Nuestra Ubicación y Contacto'
+    Backend: Administrar
+    Ofertas: Nuestras Ofertas
+    Logoff: Cerrar Ses.
+
+carusel:
+    title: 'Tienda "Memorias"'
+    libreria: 'Antigüedades y Libreria'
+    antiguedades: 'Antigüedades y Libreria'
+
+image:
+    click: 'Ver Imagen Ampliada'
+
+Categori: Categoria
+
+Product: Productos
+
+Offers: TEMATICAS
+
+Close: Seguro que desea cerrar la sesion?
+Carusel :
+   off: 'de'
+Contacto:
+   Nosotros: Nosotros
+   Direccion: 'Dirección'
+   DireccionValor: 'Animas # 57 bajos e/ Prado (Paseo de Martí) y Zulueta. Habana Vieja., La Habana 10 100, Cuba'
+   Horario: 'Horario'
+   HorarioVal: '9:30 am hasta 5:00 pm (de lunes a sábado)'
+   SendEmail: 'CONTACTENOS MEDIANTE UN E-MAIL'
+   Telefono: 'Telefono'
+   Trip: 'Ir a Trip Advisor'
+   UserName: 'Nombre'
+   Email: 'Correo Elect.'
+   Body: 'Cuerpo del Correo'
+   Send: 'Enviar'
+   Cancel: 'Cancelar'
+   EnviarCorreo: 'Enviando Email'
+   ExitoCorreo: 'Su Fmail fue Enviado con Exito'
+   ErrorCorreo: 'Ha ocurrido un error, intentelo una ves mas'
+
+Ofertas:
+   Procesando: 'Cargando Galeria...'
+
+MensajeEmail: 'Gracias por establecer contacto con nosotros. Mail. Telf: (+53) 78625153'

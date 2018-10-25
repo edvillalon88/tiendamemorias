@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+
+<head>
+    <meta charset="utf-8" />
+    <title>Error - Memorias</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="Preview page of Metronic Admin Theme #1 for statistics, charts, recent events and reports" name="description" />
+    <meta content="" name="author" />
+
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="{{ asset("global/plugins/font-awesome/css/font-awesome.min.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/simple-line-icons/simple-line-icons.min.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/bootstrap/css/bootstrap.min.css")}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/bootstrap-switch/css/bootstrap-switch.min.css") }}" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <link href="{{ asset("global/plugins/bootstrap-daterangepicker/daterangepicker.min.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/morris/morris.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/fullcalendar/fullcalendar.min.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/jqvmap/jqvmap/jqvmap.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/css/error.min.css") }}" rel="stylesheet" type="text/css" />
+    <!-- END PAGE LEVEL PLUGINS -->
+
+    <!-- BEGIN THEME GLOBAL STYLES -->
+    <link href="{{ asset("global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css") }}" rel="stylesheet" id="style_components" type="text/css" />
+    <link href="{{ asset("global/css/components.min.css") }}" rel="stylesheet" id="style_components" type="text/css" />
+    <link href="{{ asset("global/css/plugins.min.css") }}" rel="stylesheet" type="text/css" />
+    <!-- END THEME GLOBAL STYLES -->
+    <!-- BEGIN THEME LAYOUT STYLES -->
+    <link href="{{ asset("layouts/layout/css/layout.min.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("layouts/layout/css/themes/darkblue.min.css") }}" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="{{ asset("layouts/layout/css/custom.min.css") }}" rel="stylesheet" type="text/css" />
+    <!-- END THEME LAYOUT STYLES -->
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <style>
+        .fa-asterisk {
+            color: #e7505a !important;
+            font-size:7px !important;
+            vertical-align: middle;
+        }
+        .loader {
+            border: 8px solid #f3f3f3 !important;
+            border-radius: 50% !important;
+            border-top: 8px solid #3498db !important;
+            width: 60px !important;
+            height: 60px !important;
+            -webkit-animation: spin 2s linear infinite !important;
+            animation: spin 2s linear infinite !important;
+            background: transparent !important;
+            margin: 0px !important;
+            display: none;
+        }
+
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<!-- END HEAD -->
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white page-md">
+
+<div class="page-wrapper">
+    <!-- BEGIN HEADER -->
+    <div class="page-header navbar navbar-fixed-top">
+        <!-- BEGIN HEADER INNER -->
+        <div class="page-header-inner ">
+            <!-- BEGIN LOGO -->
+            <div class="page-logo">
+                <a href="index.html">
+                    {#<img src="../assets/layouts/layout/img/logo.png" alt="logo" class="logo-default" /> #}
+                </a>
+                <div class="menu-toggler sidebar-toggler">
+                    <span></span>
+                </div>
+            </div>
+            <!-- END LOGO -->
+            <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+            <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+                <span></span>
+            </a>
+            <!-- END RESPONSIVE MENU TOGGLER -->
+        </div>
+    </div>
+    <div class="clearfix"> </div>
+
+    <div class="page-container">
+        <div class="page-content-wrapper">
+            <div class="page-content">
+                <div class="page-content">
+
+                    <h1 class="page-title"> Fallo en Acceso al Sitio
+                        <small>No existe la variable de sesi&oacute;n</small>
+                    </h1>
+
+                    <div class="row">
+                        <div class="col-md-12 page-404">
+                            <div class="number font-green"> Error </div>
+                            <div class="details">
+                                <h3>Ups! No es posible continuar.</h3>
+                                <p> No se puede acceder a la p&aacute;gina. Posibles razones:
+                                <ul><li>1.Su cuenta ha expirado.</li> <li>2. No tiene permisos para acceder</li></ul>
+                                    <br/>
+                                    <a href="{{ path("homepage") }}"> Volver a Inicio </a> </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END CONTAINER -->
+    <!-- BEGIN FOOTER -->
+    <div class="page-footer">
+        <div class="page-footer-inner"> 2016 &copy; Metronic Theme By
+
+        </div>
+        <div class="scroll-to-top">
+            <i class="icon-arrow-up"></i>
+        </div>
+    </div>
+    <!-- END FOOTER -->
+</div>
+
+<script src="{{ asset("global/plugins/jquery.min.js") }}" type="text/javascript"></script>
+<script src="{{ asset("global/plugins/bootstrap/js/bootstrap.min.js") }}" type="text/javascript"></script>
+<script src="{{ asset("global/plugins/js.cookie.min.js") }}" type="text/javascript"></script>
+<script src="{{ asset("global/plugins/jquery-slimscroll/jquery.slimscroll.min.js") }}" type="text/javascript"></script>
+<script src="{{ asset("global/plugins/jquery.blockui.min.js") }}" type="text/javascript"></script>
+<script src="{{ asset("global/plugins/bootstrap-switch/js/bootstrap-switch.min.js") }}" type="text/javascript"></script>
+<!-- END CORE PLUGINS -->
+
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script src="{{ asset("global/plugins/morris/morris.min.js") }}" type="text/javascript"></script>
+<script src="{{ asset("global/plugins/bootstrap-fileinput/bootstrap-fileinput.js") }}" type="text/javascript"></script>
+<script src="{{ asset("global/plugins/jquery.sparkline.min.js") }}" type="text/javascript"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+
+<!-- BEGIN THEME GLOBAL SCRIPTS -->
+<script src="{{ asset("global/scripts/app.min.js") }}" type="text/javascript"></script>
+<!-- END THEME GLOBAL SCRIPTS -->
+
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="{{ asset("pages/scripts/dashboard.min.js") }}" type="text/javascript"></script>
+<script src="{{ asset("pages/scripts/profile.min.js") }}" type="text/javascript"></script>
+<!-- END PAGE LEVEL SCRIPTS -->
+
+<!-- BEGIN THEME LAYOUT SCRIPTS -->
+<script src="{{ asset("layouts/layout/scripts/layout.min.js") }}" type="text/javascript"></script>
+<script src="{{ asset("layouts/global/scripts/quick-sidebar.min.js") }}" type="text/javascript"></script>
+<script src="{{ asset("layouts/global/scripts/quick-nav.min.js") }}" type="text/javascript"></script>
+{% block javascripts %}{% endblock %}
+
+
+
+</body>
+</html>

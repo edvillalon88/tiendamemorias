@@ -1,0 +1,26 @@
+{% extends '::base-admin.html.twig' %}
+
+{% block body -%}
+
+    <h1 class="page-title">Error {{ title }}
+
+    </h1>
+
+    <div class="row">
+        <div class="col-md-12 page-404">
+            <div class="number font-green"> Error </div>
+            <div class="details">
+                <h3>Ups! No es posible acceder a la direcci&oacute;n.</h3>
+                <p> {{ text }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts -%}
+<script>
+    $("#recarga").remove();
+</script>
+{% endblock %}

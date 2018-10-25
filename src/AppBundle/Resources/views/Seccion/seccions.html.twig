@@ -1,0 +1,563 @@
+{% extends '::base-admin.html.twig' %}
+
+{% block body -%}
+    <link href="{{ asset("global/plugins/bootstrap-summernote/summernote.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/bootstrap-modal/css/bootstrap-modal.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/bootstrap-toastr/toastr.css") }}" rel="stylesheet" type="text/css" />
+    <style>
+        #Loading  {
+            -webkit-animation: rotation 1s infinite linear;
+        }
+
+        @-webkit-keyframes rotation {
+            from {
+                -webkit-transform: rotate(359deg);
+            }
+            to {
+                -webkit-transform: rotate(0deg);
+            }
+        }
+    </style>
+
+    <div id="grid" class="portlet light portlet-fit bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-object-ungroup font-black " id="Icono" style="display: none;" ></i>
+                <i class="icon-refresh font-black" id="Loading" style="display: none"></i>
+                <span class="caption-subject font-black bold uppercase">Secciones</span>
+            </div>
+            <div class="actions" >
+                <button type="button" class="btn btn-sm green"  onclick="openInsertView()"> Nueva secci&oacute;n </button>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <table class="table table-striped table-hover table-bordered" id="table">
+                <thead>
+                <tr>
+                    <th><strong>Nombre</strong></th>
+                    <th><strong>Publicado</strong></th>
+                    <th><strong>Acciones</strong></th>
+
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="insert" class="portlet light portlet-fit bordered" style="display: none;">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-object-ungroup font-black"></i>
+                <span class="caption-subject font-black bold uppercase">Crear Secci&oacute;n</span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <form id="newForm" method="post" onsubmit="$event.preventDefault();save('insert');">
+                <input type="hidden" id="Action" name="Action" value="add"/>
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label for="SecName" class = "control-label col-md-2">Nombre <i class="fa fa-asterisk"></i></label>
+                        <div class="col-md-4">
+                            <input class="form-control" id="SecName" name="SecName" placeholder="Nombre de Secci&oacute;n." required />
+                        </div>
+
+                        <label for="SecNameTsl" class = "control-label col-md-2">Traducci&oacute;n <i class="fa fa-asterisk"></i></label>
+                        <div class="col-md-4">
+                            <input class="form-control" id="SecNameTsl" name="SecNameTsl" required placeholder="Traducci&oacute;n de Nombre de Secci&oacute;n."/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-4 col-md-4"><a href="#" id="singleLink" onclick="visibilityOptional()">Crear elemento simple</a></div>
+                        <input type="hidden" id="Dual" name="Dual" value="true"/>
+                    </div>
+
+                    <div id="Optional">
+
+                        <hr />
+                        <div class="form-group">
+                            <strong>Agregar nueva categor&iacute;a</strong>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="CatName" class = "control-label col-md-2">Nombre <i class="fa fa-asterisk"></i></label>
+                            <div class="col-md-4">
+                                <input class="form-control" required id="CatName" name="CatName" placeholder="Nombre de Categor&iacute;a."/>
+                            </div>
+
+                            <label for="CatNameTsl" class = "control-label col-md-2">Traducci&oacute;n <i class="fa fa-asterisk"></i></label>
+                            <div class="col-md-4">
+                                <input class="form-control" required id="CatNameTsl" name="CatNameTsl" placeholder="Traducci&oacute;n de Nombre de Categor&iacute;a."/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Title" class = "control-label col-md-2">T&iacute;tulo <i class="fa fa-asterisk"></i></label>
+                            <div class="col-md-4">
+                                <input class="form-control" required id="Title" name="Title" placeholder="T&iacute;tulo de Categor&iacute;a."/>
+                            </div>
+
+                            <label for="TitleTsl" class = "control-label col-md-2">Traducci&oacute;n <i class="fa fa-asterisk"></i></label>
+                            <div class="col-md-4">
+                                <input class="form-control" required id="TitleTsl" name="TitleTsl" placeholder="Traducci&oacute;n de T&iacute;tulo de Categor&iacute;a."/>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label for="summerDesc" class = "control-label col-md-2">Descripci&oacute;n <i class="fa fa-asterisk"></i></label>
+                            <div class="col-md-10">
+                                <div class="summernote" id="summerDesc"> </div>
+                                <input type="hidden" required id="Desc" name="Desc" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="summerDescTsl" class = "control-label col-md-2">Traducci&oacute;n <i class="fa fa-asterisk"></i></label>
+                            <div class="col-md-10">
+                                <div class="summernote" id="summerDescTsl"> </div>
+                                <input type="hidden" required id="DescTsl" name="DescTsl" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ImgRow" class = "control-label col-md-2">Im&aacute;genes por fila <i class="fa fa-asterisk"></i></label>
+                            <div class="col-md-4">
+                                <input class="form-control" type="number" id="ImgRow" name="ImgRow" placeholder="Tamaño de Imagenes" required>
+
+                            </div>
+                            <label for="Images" class = "control-label col-md-2">Imagenes <i class="fa fa-asterisk"></i></label>
+                            <div class="col-md-4">
+                                <input class="form-control"  id="Images" name="Images" type="file" placeholder=""/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Guardar" class="btn btn-sm blue"  />
+                            <a class="btn btn-sm default" onclick="cancel()"> Ir a Secciones </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+
+
+    </div>
+
+    <div id="update" class="portlet light portlet-fit bordered" style="display: none;">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-object-ungroup font-black"></i>
+                <span class="caption-subject font-black bold uppercase">Modificar Secci&oacute;n</span>
+            </div>
+
+        </div>
+        <div class="portlet-body">
+            <form id="editForm" method="post">
+                <div class="form-horizontal">
+                    <input type="hidden" id="Id" name="Id" />
+                    <div class="form-group">
+                        <label for="EdSecName" class = "control-label col-md-2">Nombre <i class="fa fa-asterisk"></i></label>
+                        <div class="col-md-4">
+                            <input class="form-control" id="EdSecName" name="EdSecName"/>
+                        </div>
+
+                        <label for="EdSecNameTsl" class = "control-label col-md-2">Traducci&oacute;n <i class="fa fa-asterisk"></i></label>
+                        <div class="col-md-4">
+                            <input class="form-control" id="EdSecNameTsl" name="EdSecNameTsl" placeholder="Traducci&oacute;n de Nombre de Secci&oacute;n."/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-1">
+                                <input type="checkbox" id="CheckPubish" name="CheckPubish" />
+                        </div>
+                        <label for="CheckPubish" class = "col-md-2">Publicado</label>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="button" value="Guardar" class="btn btn-sm blue" onclick="save('edit')" />
+                            <a class="btn btn-sm default" onclick="cancel()"> Ir a Secciones </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+
+
+    </div >
+
+{% endblock %}
+
+{% block javascripts -%}
+    <script src="{{ asset("global/plugins/bootstrap-summernote/summernote.js") }}" rel="stylesheet" type="text/javascript"></script>
+    <script src="{{ asset("global/scripts/datatable.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/bootstrap-toastr/toastr.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/datatables/datatables.min.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js") }}" type="text/javascript"></script>
+
+    <script src="{{ asset("global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/bootstrap-modal/js/bootstrap-modal.js") }}" type="text/javascript"></script>
+
+    <script>
+        var errorBack = function(data){
+            //Unauthorized access.
+            if(data.status === 401) {
+                window.location.href = "{{ path("usuario_login") }}";
+            }
+            else if(data.status === 500){
+                $("#winload").hide();
+                notificacionToastr("error", "Memorias Admin", "Error al procesar la solicitud");
+            }
+            else {
+                notificacionToastr("error", "Memorias Admin", "Error al procesar la solicitud");
+            }
+
+        };
+
+        var table = $('#table').on( 'processing.dt', function ( e, settings, processing ) {
+            if(processing)
+            {
+                $('#Loading').show();
+                $('#Icono').hide();
+            }else
+            {
+                $('#Loading').toggle();
+                $('#Icono').toggle();
+            }
+            $('#Loading').css( 'display', processing ? 'inline' : 'none' );
+        } ).DataTable( {
+
+            "serverSide": true,
+            "ajax": {'url':  "{{ path("_seccions") }}", "type": "POST", error:errorBack },
+            "language": lang,
+            "pageLength": 50,
+            "processing": false,
+            "ordering":false,
+            "columns": [
+                { "data": "nombre" },
+                { "data": "visible","render": function ( data, type, row ) {
+                    return data == true ? '<a style="font-size: 20px;" onclick="published('+ row.id +', 0)" title="Quitar visible" ><i class="fa fa-check-square-o font-green-jungle"></i></a>'
+                            : '<a style="font-size: 20px;" onclick="published('+ row.id +', 1)" title="Quitar visible" ><i class="fa fa-square-o font-red-thunderbird"></i></a>';
+                    }
+                },
+                {
+                "render": function ( data, type, row, meta ) {
+                    return  '<div style="font-size: 20px;">' +
+                            '<a onclick="openEditView('+ row.id +',\''  + row.nombre + '\',\''+ row.NombreENG +'\','+ row.visible + ')" title="Editar secci&oacute;n ' + row.nombre +'">' +
+                            '<i class="fa fa-edit font-green"></i></a>&nbsp;' +
+                            '<a onclick="if (!confirm(\'Est&aacute; seguro que desea eliminar la secci&oacute;n '+ row.nombre +'?\')) {return false;} else {deleted('+ row.id +')}" title="Eliminar secci&oacute;n ' + row.nombre +
+                            '" ><i class="fa fa-trash-o font-purple-soft"></i></a>&nbsp;' +
+
+                            (meta.settings._iRecordsTotal == 1 ?
+                            '<a><i style="color:transparent" class="fa fa-arrow-up"></i></a>&nbsp;' +
+                            '<a><i style="color:transparent" class="fa fa-arrow-down"></i></a>&nbsp;'
+
+                            : row.orden == 1 ?
+                            '<a><i style="color:transparent" class="fa fa-arrow-up"></i></a>&nbsp;' +
+                            '<a onclick="changeOrder('+ row.id +', null,\'down\')" title="bajar orden"><i class="fa fa-arrow-down font-grey-gallery"></i></a>&nbsp;'
+
+                            : row.orden == meta.settings._iRecordsTotal ?
+                            '<a onclick="changeOrder('+ row.id +', null,\'up\')" title="subir orden"><i class="fa fa-arrow-up font-grey-gallery"></i></a>&nbsp;' +
+                            '<a><i style="color:transparent" class="fa fa-arrow-down"></i></a>&nbsp;'
+
+                            : '<a onclick="changeOrder('+ row.id +', null,\'up\')" title="subir orden"><i class="fa fa-arrow-up font-grey-gallery"></i></a>&nbsp;' +
+                            '<a onclick="changeOrder('+ row.id +', null,\'down\')" title="bajar orden"><i class="fa fa-arrow-down font-grey-gallery"></i></a>&nbsp;') +
+                            '</div>';
+                }, "width" : "96px"
+            }]
+        });
+
+        $(function(){
+            $("#seccion").addClass("start active").find("a").append("<span class=\"selected\"></span>");
+        });
+
+        var openInsertView = function()
+        {
+            $("#grid").hide();
+            $("#insert").show();
+        };
+
+        var openEditView = function(id, nom, nomEng,visible)
+        {
+
+            $("#grid").hide();
+
+            $("#Id").val(id);
+            $("#EdSecName").val(nom);
+            $("#EdSecNameTsl").val(nomEng);
+            $("#CheckPubish").prop("checked", visible);
+            $("#CheckPubish").val(visible ? 1 : 0);
+
+            $("#update").show();
+        };
+
+        var cancel = function()
+        {
+            //Refreescar tabla
+            table.ajax.reload();
+
+            //Borrar datos de formularios
+            $("#SecName").val("");
+            $("#SecNameTsl").val("");
+            $("#Title").val("");
+            $("#TitleTsl").val("");
+            $("#CatName").val("");
+            $("#CatNameTsl").val("");
+
+            $("#summerDesc").summernote("code", "");
+            $("#summerDescTsl").summernote("code", "");
+
+            $("#Desc").val("");
+            $("#DescTsl").val("");
+
+            $("#ImgRow").val("1");
+
+            $("#Dual").val("false");
+            visibilityOptional();
+
+            $("#Id").val("");
+            $("#EdSecName").val("");
+            $("#CheckPubish").prop("checked", false);
+
+            //Transici�n entre vistas
+            $("#update").hide();
+            $("#insert").hide();
+            $("#grid").show();
+        };
+
+        var visibilityOptional = function()
+        {
+            var state = $("#Dual").val();
+
+            if(state === "true") {
+                $("#Optional").hide();
+                $("#Dual").val("false");
+                $("#singleLink").html("Crear con categor&iacute;a")
+            }
+            else {
+                $("#Optional").show();
+                $("#Dual").val("true");
+                $("#singleLink").html("Crear elemento simple")
+            }
+        };
+
+        var save = function(mode)
+        {
+            var form = "#";
+
+            var callBack = function(data){
+                if(data == "null")
+                    notificacionToastr("error", "Memorias Admin", "Error al procesar la solicitud");
+                else {
+                    cancel();
+                    notificacionToastr("success", "Memorias Admin", "Cambios realizados correctamente");
+                }
+                $("#winload").hide();
+            };
+
+            //Validar para insertar
+            if(mode === "insert")
+            {
+                var SecName = $("#SecName").val();
+                var SecNameTsl = $("#SecNameTsl").val();
+                var state = $("#Dual").val();
+
+                //Validar para insertar Seccion con Categoria
+                if(state === "true")
+                {
+                    var Title = $("#Title").val();
+                    var TitleTsl = $("#TitleTsl").val();
+                    var CatName = $("#CatName").val();
+                    var CatNameTsl = $("#CatNameTsl").val();
+                    var Desc = $("#summerDesc").summernote("code");
+                    var DescTsl = $("#summerDescTsl").summernote("code");
+
+                    if(SecName.trim() == "" || Title.trim() == "" || CatName.trim() == "" || Desc.trim() == "")
+                    {
+                        notificacionToastr("error", "Memorias Admin", "Inserte los campos obligatorios");
+                        return;
+                    }
+
+                    $("#Desc").val(Desc);
+                    $("#DescTsl").val(DescTsl);
+                }
+                //Validar para insertar Seccion sin Categoria
+                else
+                {
+                    if(SecName.trim() == "")
+                    {
+                        notificacionToastr("error", "Memorias Admin", "Inserte los campos obligatorios");
+                        return;
+                    }
+                }
+
+                form += "newForm";
+            }
+            //Validar para modficiar
+            else
+            {
+                var EdSecName = $("#EdSecName").val();
+
+                if(EdSecName.trim() == "")
+                {
+                    notificacionToastr("error", "Memorias Admin", "Inserte los campos obligatorios");
+                    return;
+                }
+
+                if($("#CheckPubish").prop("checked"))
+                    $("#CheckPubish").val(1);
+                else
+                    $("#CheckPubish").val(0);
+
+                form += "editForm";
+            }
+
+            notificacionToastr("info", "Memorias Admin", "Procesando solicitud...");
+
+            $("#winload").show();
+
+            var _data = $(form).serialize();
+            var ajaxOption = {
+                type: "POST",
+                url: "{{ path("save-seccion") }}",
+                data: _data,
+                success: callBack,
+                error: errorBack
+            };
+
+            if(mode === "insert"){
+
+                var inputFileImage = document.getElementById("Images");
+                var form_data = new FormData();
+                var file_data = inputFileImage.files[0];
+
+                if(state == "true"){
+                    form_data.append('SecName', $("#SecName").val());
+                    form_data.append('SecNameTsl', $("#SecNameTsl").val());
+                    form_data.append('Title', $("#Title").val());
+                    form_data.append('TitleTsl', $("#TitleTsl").val());
+                    form_data.append('CatName', $("#CatName").val());
+                    form_data.append('CatNameTsl', $("#CatNameTsl").val());
+                    form_data.append('ImgRow', $("#ImgRow").val());
+                    form_data.append('Desc', $("#Desc").val());
+                    form_data.append('DescTsl', $("#DescTsl").val());
+                    form_data.append('Dual', 'true');
+                    form_data.append('Images', file_data);
+
+                    _data = form_data;
+
+                    ajaxOption = {
+                        type: "POST",
+                        url: "{{ path("save-seccion") }}",
+                        data: _data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: callBack,
+                        error: errorBack
+                    }
+                }
+
+            }
+
+            $.ajax(ajaxOption);
+        }
+
+        var published = function(id, publish)
+        {
+            $("#winload").show();
+            $.ajax({
+                type: "POST",
+                url: "{{ path("publish-seccion") }}",
+                data: { "Id": id, Publish:publish },
+                success: function(data){
+                    if(data == "null")
+                        notificacionToastr("error", "Memorias Admin", "Error al procesar la solicitud");
+                    else {
+                        cancel();
+                        notificacionToastr("success", "Memorias Admin", "Cambios realizados correctamente");
+                    }
+                    $("#winload").hide();
+                },
+                error:errorBack
+            });
+        };
+
+        var deleted = function(id)
+        {
+            $("#winload").show();
+            $.ajax({
+                type: "POST",
+                url: "{{ path('delete-seccion') }}",
+                data: { 'id':id},
+                success: function(data){
+                    if(data == "null")
+                        notificacionToastr("error", "Memorias Admin", "Error al procesar la solicitud");
+                    else {
+                        cancel();
+                        notificacionToastr("success", "Memorias Admin", "Cambios realizados correctamente");
+                    }
+                    $("#winload").hide();
+                },
+                error:errorBack
+            });
+        };
+
+        var changeOrder = function(id, padre, mode)
+        {
+            $("#winload").show();
+            $.ajax({
+                type: "POST",
+                url: "{{ path("change-order") }}",
+                data: { "Id": id, "Father": padre, "Mode": mode },
+                success: function(data){
+                    if(data == "null")
+                        notificacionToastr("error", "Memorias Admin", "Error al procesar la solicitud");
+                    else {
+                        cancel();
+                        notificacionToastr("success", "Memorias Admin", "Cambios realizados correctamente");
+                    }
+                    $("#winload").hide();
+                },
+                error:errorBack
+            });
+        };
+
+
+        $(".summernote").summernote({
+            height: "150px",
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ol', 'ul', 'paragraph', 'height']],
+                ['table', ['table']],
+                ['insert', ['link']],
+                ['view', ['undo', 'redo', 'fullscreen', 'codeview', 'help']]
+            ]
+        });
+
+    </script>
+
+
+    <!-- BEGIN THEME GLOBAL SCRIPTS -->
+
+
+{% endblock %}

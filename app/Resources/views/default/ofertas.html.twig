@@ -1,0 +1,198 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <link href="{{ asset("global/plugins/cubeportfolio/css/cubeportfolio.css") }}" rel="stylesheet" type="text/css" />
+    <!-- END PAGE LEVEL PLUGINS -->
+    <!-- BEGIN THEME GLOBAL STYLES -->
+
+    <!-- END THEME GLOBAL STYLES -->
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    <link href="{{ asset("pages/css/portfolio.min.css") }}" rel="stylesheet" type="text/css" />
+    <style>
+        p{
+            margin-top:0px;
+            font-size:18px;
+        }
+        .container, .page-title,  .bar-section, .bar-categori, .cbp-filter-item, .title{
+            font-family: 'Times New Roman', Times, serif !important;
+
+        }
+        .cbp-filter-item{
+            font-size:18px !important;
+        }
+        .contenido{
+            font-size:medium;
+        }
+        .seccion, .title{
+            color:#fff !important;
+        }
+
+        .activeLink {
+            color: #fff !important;
+            font-weight: bold !important;
+        }
+        .list-group-item > .glyphicon{
+            margin-right:5px;
+        }
+
+        .marquee {
+            margin-top:50px;
+            margin-bottom:10px;
+            background-image: url({{ asset('pages/img/TIRA-DE-NUESTRAS-OFERTAS-PBA-01.jpg') }});
+            width: 100%;
+            height: 60px;
+            -webkit-animation: marquee 60s infinite linear;
+        }
+
+        @-webkit-keyframes marquee {
+            0% {
+                background-position: 0;
+            }
+
+            100% {
+                background-position: -1190px;
+            }
+        }
+        .cbp-item{
+            border: black 3px solid !important;
+        }
+    </style>
+    <div class="marquee" >
+
+    </div>
+
+    <div class="container">
+        <div class="col-md-4 sidebar-offcanvas">
+            <div class="panel panel-default" style="text-align: justify">
+                <div class="panel-heading"><h4>{{ 'Offers' | trans }}</h4></div>
+                <div class="list-group">
+                    {% for item in model %}
+                        {% if  app.user != null %}
+                            {% if item.cantCat > 1 %}
+                                <a id="{{ item.seccion.id }}"  class="list-group-item" data-toggle="collapse" href="#collapse{{ item.seccion.id }}" aria-expanded="true" aria-controls="">
+                                     <span class="glyphicon glyphicon-plus-sign" > </span>
+                                    {% if item.seccion.visible %} {{ item.seccion.nombre }}
+                                    {% else %} <span style="color:#23527c">{{ item.seccion.nombre }}</span>
+                                    {% endif %}
+                                    <span class="badge">{{ item.cantCat }}</span>
+                                </a>
+                                <div  class="list-group panel-collapse collapse " role="tabpanel" id="collapse{{ item.seccion.id }}" >
+                                    {% for cat in item.categorias %}
+                                        <a id="{{ cat.id }}" class="list-group-item sub-item" style="padding-left: 25px !important;" href="#" onclick="event.preventDefault(); showDetail({{ cat.id }})">
+                                            {% if cat.visible %} {{ cat.nombre }}
+                                            {% else %} <span style="color:#23527c">{{ cat.nombre }}</span>
+                                            {% endif %}
+                                        </a>
+
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {% for cat in item.categorias %}
+                                    <a id="{{ cat.id }}" class="list-group-item sub-item" href="#" onclick="event.preventDefault(); showDetail({{ cat.id }})">
+                                        {% if cat.visible %} {{ cat.nombre }}
+                                        {% else %} <span style="color:#23527c">{{ cat.nombre }}</span>
+                                        {% endif %}
+                                    </a>
+
+                                {% endfor %}
+                            {% endif %}
+                        {% else %}
+                            {% if item.seccion.visible %}
+                                {% if item.cantCat > 1 %}
+                                    <a id="{{ item.seccion.id }}" class="list-group-item" data-toggle="collapse" href="#collapse{{ item.seccion.id }}" aria-expanded="true" aria-controls="">
+                                        <span class="glyphicon glyphicon-plus-sign" > </span>
+                                        {{ item.seccion.nombre }}
+                                        <span class="badge">{{ item.cantCat }}</span>
+                                    </a>
+                                    <div  class="list-group panel-collapse collapse " role="tabpanel" id="collapse{{ item.seccion.id }}" >
+                                        {% for cat in item.categorias %}
+                                            {% if cat.visible %}
+                                                <a id="{{ cat.id }}" class="list-group-item sub-item" style="padding-left: 25px !important;" href="#" onclick="event.preventDefault(); showDetail({{ cat.id }})"> {{ cat.nombre }}</a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {% for cat in item.categorias %}
+                                        {% if cat.visible %}
+                                            <a id="{{ cat.id }}" class="list-group-item sub-item" href="#" onclick="event.preventDefault(); showDetail({{ cat.id }})"> {{ cat.nombre }}</a>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+        <div class="col-md-8">
+            <div class="contenido text-justify">
+                {{ tienda.nosotros | raw }}
+            </div>
+            <div id="winload" style=" display: none; text-align: center; ">
+                {{ 'Ofertas.Procesando' | trans }} <img src="{{ asset("loading.gif") }}" width="40" />
+            </div>
+        </div>
+    </div>
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+
+
+{% endblock %}
+{% block javascripts %}
+
+    <script src="{{ asset("global/plugins/cubeportfolio/js/jquery.cubeportfolio.min.js") }}" type="text/javascript"></script>
+
+
+    <script>
+
+        $(".home").addClass("active");
+        var showDetail = function(id){
+            $(".contenido").html("");
+            $("#winload").fadeIn(200);
+            $(".contenido").load("categori/"+id+"/detail", function(){
+                $("#winload").hide();
+            });
+        }
+
+        $('.list-group-item').click(function(){
+            $(this).find('.glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+
+        })
+        $(".bar-categori .cbp-filter-item").click(function(){
+            showDetail($(this).attr("data-val"));
+        })
+
+        $(".sub-item").click(function(){
+
+            var parent = $(this).parent().attr("id");
+            $(".list-group-item").removeClass("activeLink");
+
+            if(parent !== undefined && parent.includes("collapse")) {
+
+                $("#"+parent.replace("collapse", "")).addClass("activeLink");
+            }
+
+            $(".sub-item").removeClass("activeLink");
+            $("#"+$(this).attr("id")).addClass("activeLink");
+        });
+
+
+        $(".seccion").click(function(){
+            $(".bar-categori").hide();
+            $("#"+$(this).attr('data-sec')).show();
+        })
+
+
+    </script>
+
+{% endblock %}

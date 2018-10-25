@@ -1,0 +1,599 @@
+{% extends '::base-admin.html.twig' %}
+
+{% block body -%}
+    <link href="{{ asset("global/plugins/bootstrap-summernote/summernote.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/bootstrap-modal/css/bootstrap-modal.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/bootstrap-modal/css/bootstrap-modal.css") }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("global/plugins/bootstrap-toastr/toastr.css") }}" rel="stylesheet" type="text/css" />
+    <style>
+        #Loading  {
+            -webkit-animation: rotation 1s infinite linear;
+        }
+
+        @-webkit-keyframes rotation {
+            from {
+                -webkit-transform: rotate(359deg);
+            }
+            to {
+                -webkit-transform: rotate(0deg);
+            }
+        }
+    </style>
+
+    <div id="grid" class="portlet light portlet-fit bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-sitemap font-black " id="Icono" style="display: none;" ></i>
+                <i class="icon-refresh font-black" id="Loading" style="display: none"></i>
+                <span class="caption-subject font-black bold uppercase">Categor&iacute;as</span>
+            </div>
+            <div class="actions" >
+                <a type="button" class="btn btn-sm green" onclick="openInsertView()"> Nueva categor&iacute;a </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="col-md-offset-3 col-md-6 form-horizontal">
+                <div class="form-group">
+                    <label for="Seccions" class = "control-label col-md-2">Secciones:</label>
+                    <div class="col-md-6">
+                    <select class="form-control" id="Seccions" name="Seccions" onchange="Filtro()">
+                        {% for sec in seccions %}
+                            <option value={{ sec.id }}>{{ sec.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <table class="table table-striped table-hover table-bordered" id="table">
+                <thead>
+                <tr>
+                    <th><strong>T&iacute;tulo</strong></th>
+                    <th><strong>Tamaño de Imgs</strong></th>
+                    <th><strong>Publicado</strong></th>
+                    <th><strong>Acciones</strong></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="form" class="portlet light portlet-fit bordered" style="display: none;">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-object-ungroup font-black"></i>
+                <span class="caption-subject font-black bold uppercase">Crear / Editar Categor&iacute;a</span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <form id="CatForm" method="post">
+                <div class="form-horizontal">
+                    <input type="hidden" id="Id" name="Id" value="" />
+                    <div class="form-group">
+                        <label for="Title" class = "control-label col-md-2">Secci&oacute;n <i class="fa fa-asterisk"></i></label>
+                        <div class="col-md-4">
+                            <select class="form-control" id="SeccionsIns" name="SeccionsIns">
+                                <option></option>
+                                {% for sec in seccions %}
+                                    <option value={{ sec.id }}>{{ sec.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="CatName" class = "control-label col-md-2">Nombre <i class="fa fa-asterisk"></i></label>
+                        <div class="col-md-4">
+                            <input class="form-control" id="CatName" name="CatName" placeholder="Nombre de Categor&iacute;a."/>
+                        </div>
+
+                        <label for="CatNameTsl" class = "control-label col-md-2">Traducci&oacute;n <i class="fa fa-asterisk"></i></label>
+                        <div class="col-md-4">
+                            <input class="form-control" id="CatNameTsl" name="CatNameTsl" placeholder="Traducci&oacute;n de Nombre de Categor&iacute;a."/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Title" class = "control-label col-md-2">T&iacute;tulo <i class="fa fa-asterisk"></i></label>
+                        <div class="col-md-4">
+                            <input class="form-control" id="Title" name="Title" placeholder="T&iacute;tulo de Categor&iacute;a."/>
+                        </div>
+
+                        <label for="TitleTsl" class = "control-label col-md-2">Traducci&oacute;n <i class="fa fa-asterisk"></i></label>
+                        <div class="col-md-4">
+                            <input class="form-control" id="TitleTsl" name="TitleTsl" placeholder="Traducci&oacute;n de T&iacute;tulo de Categor&iacute;a."/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="summerDesc" class = "control-label col-md-2">Descripci&oacute;n <i class="fa fa-asterisk"></i></label>
+                        <div class="col-md-10">
+                            <div class="summernote" id="summerDesc" name="summerDesc"> </div>
+                            <input type="hidden" id="Desc" name="Desc" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="summerDescTsl" class = "control-label col-md-2">Traducci&oacute;n <i class="fa fa-asterisk"></i></label>
+                        <div class="col-md-10">
+                            <div class="summernote" id="summerDescTsl" name="summerDescTsl"> </div>
+                            <input type="hidden" id="DescTsl" name="DescTsl" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ImgRow" class = "control-label col-md-2">Tamaño de Imagenes <i class="fa fa-asterisk"></i></label>
+                        <div class="col-md-4" >
+
+                            <input class="form-control" id="ImgRow" name="ImgRow" placeholder="Tamaño de Imagenes" required />
+
+
+                        </div>
+                        <label for="Images" class = "control-label col-md-2">Imagenes <i class="fa fa-asterisk"></i></label>
+                        <div class="col-md-4">
+                            <input class="form-control" id="Images" name="Images" type="file" placeholder=""/>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group" id="Publish">
+                        <div class="col-md-offset-2 col-md-1">
+                            <input type="checkbox" id="CheckPubish" name="CheckPubish" />
+                        </div>
+                        <label for="CheckPubish" class = "col-md-2">Publicado</label>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="button" value="Guardar" class="btn btn-sm blue" onclick="save(false)" />
+                            <a class="btn btn-sm default" onclick="cancel()"> Ir a Categor&iacute;as </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+
+
+    </div>
+
+    <div id="fmOnlyImg" class="portlet light portlet-fit bordered" style="display: none;">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-object-ungroup font-black"></i>
+                <span class="caption-subject font-black bold uppercase">Cambiar Im&aacute;genes</span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <form id="OnlyForm" method="post">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="Images" class = "control-label col-md-2">Imagenes <i class="fa fa-asterisk"></i></label>
+                        <div class="col-md-4">
+                            <input class="form-control" id="ImagesOnly" name="ImagesOnly" type="file" placeholder=""/>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="button" value="Guardar" class="btn btn-sm blue" onclick="save(true)" />
+                            <a class="btn btn-sm default" onclick="cancel()"> Ir a Categor&iacute;as </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts -%}
+    <script src="{{ asset("global/plugins/bootstrap-summernote/summernote.js") }}" rel="stylesheet" type="text/javascript"></script>
+    <script src="{{ asset("global/scripts/datatable.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/bootstrap-toastr/toastr.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/datatables/datatables.min.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js") }}" type="text/javascript"></script>
+
+    <script src="{{ asset("global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("global/plugins/bootstrap-modal/js/bootstrap-modal.js") }}" type="text/javascript"></script>
+
+    <script>
+
+        var errorBack = function(data) {
+
+            //Unauthorized access.
+            if (data.status === 401) {
+                window.location.href = "{{ path("usuario_login") }}";
+            }
+            else if(data.status === 500){
+                $("#winload").hide();
+                notificacionToastr("error", "Memorias Admin", "Error al procesar la solicitud");
+            }
+            else {
+                notificacionToastr("error", "Memorias Admin", "Error al procesar la solicitud");
+            }
+        };
+
+        var Filtrar = function()
+        {
+            if($("#Seccions").val().trim() == "")
+            {
+                return "";
+            }
+
+            else
+            {
+                return $("#Seccions").val();
+            }
+
+        }
+
+        var table = $('#table').on( 'processing.dt', function ( e, settings, processing ) {
+            if(processing)
+            {
+                $('#Loading').show();
+                $('#Icono').hide();
+            }else
+            {
+                $('#Loading').toggle();
+                $('#Icono').toggle();
+            }
+            $('#Loading').css( 'display', processing ? 'inline' : 'none' );
+        } ).on( 'preDraw', function (e, settings) {
+            e.column(1).search(Filtrar());
+        } ).DataTable( {
+
+            "serverSide": true,
+            "ajax": {'url':  "{{ path("_categories") }}", "type": "POST", error:errorBack },
+            "language": lang,
+            "pageLength": 50,
+            "processing": false,
+            "ordering":false,
+            "columns": [
+                { "data": "titulo" },
+                { "data": "seccion.img_row" },
+                { "data": "seccion.visible","render": function ( data, type, row, meta ) {
+                    return data == true ? '<a style="font-size: 20px;" onclick="published('+ row.seccion.id +', 0)" title="Quitar visible" ><i class="fa fa-check-square-o font-green-jungle"></i></a>'
+                            : '<a style="font-size: 20px;" onclick="published('+ row.seccion.id +', 1)" title="Quitar visible" ><i class="fa fa-square-o font-red-thunderbird"></i></a>';
+                }
+                },
+                {
+                    "render": function ( data, type, row, meta ) {
+                        return '<div style="font-size: 20px;">' +
+                        '<a onclick="openEditView('+ row.seccion.id +')" title="Editar categor&iacute;a  ' + row.titulo +'">' +
+                        '<i class="fa fa-edit font-green"></i></a>&nbsp;' +
+                        '<a onclick="if (!confirm(\'Est&aacute; seguro que desea eliminar la categor&iacute;a?\')) {return false;} else {deleted('+ row.seccion.id +')}" title="Eliminar categor&iacute;a  ' + row.titulo +
+                        '" ><i class="fa fa-trash-o font-purple-soft"></i></a>&nbsp;' +
+
+                        (meta.settings._iRecordsTotal == 1 ?
+                        '<a><i style="color:transparent" class="fa fa-arrow-up"></i></a>&nbsp;' +
+                        '<a><i style="color:transparent" class="fa fa-arrow-down"></i></a>&nbsp;'
+
+                        : row.seccion.orden == 1 ?
+                        '<a><i style="color:transparent" class="fa fa-arrow-up"></i></a>&nbsp;' +
+                        '<a onclick="changeOrder('+ row.seccion.id +', '+ row.seccion.principal.id +',\'down\')" title="bajar orden"><i class="fa fa-arrow-down font-grey-gallery"></i></a>&nbsp;'
+
+                        : row.seccion.orden == meta.settings._iRecordsTotal ?
+                        '<a onclick="changeOrder('+ row.seccion.id +', '+ row.seccion.principal.id +',\'up\')" title="subir orden"><i class="fa fa-arrow-up font-grey-gallery"></i></a>&nbsp;' +
+                        '<a><i style="color:transparent" class="fa fa-arrow-down"></i></a>&nbsp;'
+
+                        : '<a onclick="changeOrder('+ row.seccion.id +', '+ row.seccion.principal.id +',\'up\')" title="subir orden"><i class="fa fa-arrow-up font-grey-gallery"></i></a>&nbsp;' +
+                        '<a onclick="changeOrder('+ row.seccion.id +', '+ row.seccion.principal.id +',\'down\')" title="bajar orden"><i class="fa fa-arrow-down font-grey-gallery"></i></a>&nbsp;') +
+
+                        '<a onclick="openOnlyImgView('+ row.seccion.id +')" title="cambiar fotos"><i class="fa fa-file-image-o font-blue"></i></a>' +
+                        '</div>';
+                    }, "width" : "120px"
+                }
+            ],
+            "searchCols": [
+                null,
+                { "search": Filtrar() },
+                null,
+                null,
+                null,
+                null
+            ]
+        } );
+
+        var Filtro = function(){
+            table.column(1).search(Filtrar()).draw();
+        };
+
+        $(function(){
+            $("#category").addClass("start active").find("a").append("<span class=\"selected\"></span>");
+        });
+
+
+        var openInsertView = function()
+        {
+            $("#grid").hide();
+            $("#fmOnlyImg").hide();
+
+            $("#Publish").hide();
+            $("#SeccionsIns").val($("#Seccions").val());
+            $("#CheckPubish").prop("checked", false);
+
+            $("#summerDesc").summernote("code", "");
+            $("#summerDescTsl").summernote("code", "");
+            $("#Desc", "#DescTsl").val("");
+
+            $("#form").show();
+        };
+
+        var openEditView = function(id)
+        {
+            $("#Id").val(id);
+
+            $.ajax({
+                type: "POST",
+                url: "{{ path("get-category") }}",
+                data: { "Id": id },
+                success: function(data){
+                    if(data == "null")
+                        notificacionToastr("error", "Memorias Admin", "Elemento inexistente");
+                    else {
+                        $("#fmOnlyImg").hide();
+                        $("#grid").hide();
+
+                        var array = JSON.parse(data);
+
+                        $("#Id").val(array["seccionId"]);
+                        $("#SeccionsIns").val(array["principalId"]);
+                        $("#Title").val(array["titulo"]);
+                        $("#TitleTsl").val(array["tituloEng"]);
+                        $("#CatName").val(array["nombre"]);
+                        $("#CatNameTsl").val(array["nombre"]);
+
+
+
+                        $("#Desc").val(array["desc"]);
+                        $("#DescEng").val(array["descEng"]);
+
+                        $("#ImgRow").val(array["img_row"]);
+
+                        $("#Publish").show();
+                        $("#CheckPubish").prop("checked", array["visible"]);
+                        $("#form").show();
+                        $("#summerDesc").summernote("code", array["desc"]);
+                        $("#summerDescTsl").summernote("code", array["descEng"]);
+
+
+                    }
+                }
+            });
+        };
+
+        var openOnlyImgView = function(id)
+        {
+            $("#Id").val(id);
+            $("#grid").hide();
+            $("#form").hide();
+            $("#fmOnlyImg").show();
+        };
+
+        var cancel = function()
+        {
+            //Refrescar tabla
+            table.ajax.reload();
+
+            //Borrar datos de formularios
+            $("#SeccionsIns").val("");
+            $("#Title").val("");
+            $("#TitleTsl").val("");
+            $("#CatName").val("");
+            $("#CatNameTsl").val("");
+
+            $("#summerDesc").summernote("code", "");
+            $("#summerDescTsl").summernote("code", "");
+            $("#Desc", "#DescTsl").val("");
+
+            $("#ImgRow").val("1");
+
+            $("#Id").val("");
+            $("#Publish").hide();
+            $("#CheckPubish").prop("checked", false);
+            $("#Images").val("");
+            $("#ImagesOnly").val("");
+
+            //Transici�n entre vistas
+            $("#form").hide();
+            $("#fmOnlyImg").hide();
+            $("#grid").show();
+        };
+
+        var save = function(onlyImg)
+        {
+            var callBack = function(data){
+                if(data == "null")
+                    notificacionToastr("error", "Memorias Admin", "Error al procesar la solicitud");
+                else {
+                    cancel();
+                    notificacionToastr("success", "Memorias Admin", "Cambios realizados correctamente");
+                }
+                $("#winload").hide();
+            }
+
+            var Id = $("#Id").val();
+
+            if(!onlyImg)
+            {
+                //Validar
+                var SeccionsIns = $("#SeccionsIns").val();
+                var Title = $("#Title").val();
+                var TitleTsl = $("#TitleTsl").val();
+                var CatName = $("#CatName").val();
+                var CatNameTsl = $("#CatNameTsl").val();
+                var Desc = $("#summerDesc").summernote("code");
+                var DescTsl = $("#summerDescTsl").summernote("code");
+
+                if(SeccionsIns == "" || Title.trim() == "" || TitleTsl.trim() == ""
+                        || CatName.trim() == "" || CatNameTsl.trim() == ""
+                        || Desc.trim() == "" || DescTsl.trim() == "")
+                {
+                    notificacionToastr("error", "Memorias Admin", "Inserte los campos obligatorios");
+                    return;
+                }
+
+                $("#Desc").val(Desc);
+                $("#DescTsl").val(DescTsl);
+
+                //Validar para modificar
+                if(Id !== "")
+                {
+                    if($("#CheckPubish").prop("checked"))
+                        $("#CheckPubish").val(1);
+                    else
+                        $("#CheckPubish").val(0);
+                }
+
+            }
+
+            notificacionToastr("info", "Memorias Admin", "Procesando solicitud...");
+
+            $("#winload").show();
+
+            var form_data = new FormData();
+
+            form_data.append('Id', Id);
+
+            if(!onlyImg)
+            {
+                var inputFileImage = document.getElementById("Images");
+                var file_data = inputFileImage.files[0];
+                form_data.append('SeccionsIns', $("#SeccionsIns").val());
+                form_data.append('Title', $("#Title").val());
+                form_data.append('TitleTsl', $("#TitleTsl").val());
+                form_data.append('CatName', $("#CatName").val());
+                form_data.append('CatNameTsl', $("#CatNameTsl").val());
+                form_data.append('ImgRow', $("#ImgRow").val());
+                form_data.append('Desc', $("#Desc").val());
+                form_data.append('DescTsl', $("#DescTsl").val());
+                form_data.append('CheckPubish', $("#CheckPubish").val());
+            }
+            else
+            {
+                var Img = $("#ImagesOnly").val();
+
+                if(Img.trim() == "")
+                {
+                    notificacionToastr("error", "Memorias Admin", "Inserte la dirección del fichero");
+                    $("#winload").hide();
+                    return;
+                }
+
+                inputFileImage = document.getElementById("ImagesOnly");
+                file_data = inputFileImage.files[0];
+                form_data.append('OnlyImg', onlyImg);
+                form_data.append('SeccionsIns', $("#Seccions").val());
+            }
+
+            form_data.append('Images', file_data);
+
+            var _data = form_data;
+
+            var ajaxOption = {
+                type: "POST",
+                url: "{{ path("save-category") }}",
+                data: _data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: callBack,
+                error:errorBack
+            };
+
+            $.ajax(ajaxOption);
+        };
+
+        var published = function(id, publish)
+        {
+            $("#winload").show();
+            $.ajax({
+                type: "POST",
+                url: "{{ path("publish-seccion") }}",
+                data: { "Id": id, Publish:publish },
+                success: function(data){
+                    if(data == "null")
+                        notificacionToastr("error", "Memorias Admin", "Error al procesar la solicitud");
+                    else {
+                        cancel();
+                        notificacionToastr("success", "Memorias Admin", "Cambios realizados correctamente");
+                    }
+                    $("#winload").hide();
+                },
+                error:errorBack
+            });
+        };
+
+        var deleted = function(id)
+        {
+            $("#winload").show();
+            $.ajax({
+                type: "POST",
+                url: "{{ path('delete-category') }}",
+                data: {'id':id},
+                success: function(data){
+                    if(data == "null")
+                        notificacionToastr("error", "Memorias Admin", "Error al procesar la solicitud");
+                    else {
+                        cancel();
+                        notificacionToastr("success", "Memorias Admin", "Cambios realizados correctamente");
+                    }
+                    $("#winload").hide();
+                },
+                error:errorBack
+            });
+        };
+
+        var changeOrder = function(id, padre, mode)
+        {
+            $("#winload").show();
+            $.ajax({
+                type: "POST",
+                url: "{{ path("change-order") }}",
+                data: { "Id": id, "Father": padre, "Mode": mode },
+                success: function(data){
+                    if(data == "null")
+                        notificacionToastr("error", "Memorias Admin", "Error al procesar la solicitud");
+                    else {
+                        cancel();
+                        notificacionToastr("success", "Memorias Admin", "Cambios realizados correctamente");
+                    }
+                    $("#winload").hide();
+                },
+                error:errorBack
+            });
+        };
+
+
+        $(".summernote").summernote({
+            height: "150px",
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ol', 'ul', 'paragraph', 'height']],
+                ['table', ['table']],
+                ['insert', ['link']],
+                ['view', ['undo', 'redo', 'fullscreen', 'codeview', 'help']]
+            ]
+        })
+
+    </script>
+
+
+    <!-- BEGIN THEME GLOBAL SCRIPTS -->
+
+
+{% endblock %}

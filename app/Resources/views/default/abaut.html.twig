@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <div class="jumbotron">
+
+    </div>
+    <div class="container marketing">
+
+        <!-- Three columns of text below the carousel -->
+        <div class="row">
+
+            <div class="col-lg-12" style="text-align: justify">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h5 class="title">Abaut</h5></div>
+                   <div class="panel-body">
+                       {{ tienda.nosotros }}
+                   </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /END THE FEATURETTES -->
+
+
+
+    </div>
+{% endblock %}
+{% block javascripts %}
+<script>
+    $(".abaut").addClass("active");
+</script>
+{% endblock %}

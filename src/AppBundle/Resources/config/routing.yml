@@ -1,0 +1,80 @@
+homepage:
+    path: /{_locale}
+    defaults: { _controller: "AppBundle:Default:index", _locale: es }
+    requirements:
+       _locale: en|es
+
+usuario_login:
+    path: /login
+    defaults: { _controller: "AppBundle:Usuario:login" }
+    requirements:
+       _locale: en|es
+
+abaut:
+    path: /{_locale}/abaut
+    defaults: { _controller: "AppBundle:Default:abaut" }
+    requirements:
+       _locale: en|es
+
+contact:
+    path: /{_locale}/contact
+    defaults: { _controller: "AppBundle:Default:contact" }
+    requirements:
+       _locale: en|es
+
+send-email:
+    path: /{_locale}/send-email
+    defaults: { _controller: "AppBundle:Default:sendEmail" }
+    methods:  [POST]
+    requirements:
+       _locale: en|es
+
+
+ofertas:
+    path: /{_locale}/ofertas
+    defaults: { _controller: "AppBundle:Default:ofertas" }
+    requirements:
+       _locale: en|es
+
+categori_detail:
+    path: /{_locale}/categori/{id}/detail
+    defaults: { _controller: "AppBundle:Default:detail" }
+    requirements:
+       _locale: en|es
+
+usuario_login_check:
+    path: /login_check
+
+usuario_logout:
+    path: /logout
+    defaults: { _controller: "AppBundle:Usuario:logout" }
+
+usuario_error:
+    path: /error
+    defaults: { _controller: "AppBundle:Usuario:error" }
+    methods:  GET
+
+usuario_error_expirado:
+    path: /error
+    defaults: { _controller: "AppBundle:Usuario:error_expirado" }
+
+usuario_perfil:
+    path: /manager/perfil
+    defaults: { _controller: "AppBundle:Usuario:perfil" }
+
+update_perfil:
+    path:     /manager/update-perfil
+    defaults: { _controller: "AppBundle:Usuario:updateUser" }
+    methods:  [POST, PUT]
+
+app_seccion:
+    resource: "@AppBundle/Resources/config/routing/seccion.yml"
+    prefix:   /manager
+
+tienda:
+    path:     /manager/tienda
+    defaults: { _controller: AppBundle:Tienda:tienda }
+
+save_tienda:
+    path:     /manager/tienda/update
+    defaults: { _controller: AppBundle:Tienda:update }

@@ -1,0 +1,72 @@
+manager:
+    path:     /
+    defaults: { _controller: "AppBundle:Seccion:index" }
+
+seccions:
+    path:     /seccions
+    defaults: { _controller: "AppBundle:Seccion:seccions" }
+
+_seccions:
+    path:     /seccions/_ajax
+    defaults: { _controller: "AppBundle:Seccion:_seccions" }
+
+save-seccion:
+    path:     /save-seccion
+    defaults: { _controller: "AppBundle:Seccion:saveSeccion" }
+    methods:  [POST]
+
+publish-seccion:
+    path:     /publish-seccion
+    defaults: { _controller: "AppBundle:Seccion:publishSeccion" }
+    methods:  [POST]
+
+delete-seccion:
+    path:     seccion/delete
+    defaults: { _controller: "AppBundle:Seccion:deleteSeccion" }
+    methods:  [POST, DELETE]
+
+change-order:
+    path:     /change-order
+    defaults: { _controller: "AppBundle:Seccion:changeOrder" }
+    methods:  [POST]
+
+categories:
+    path:     /categories
+    defaults: { _controller: "AppBundle:Seccion:categories" }
+
+_categories:
+    path:     /categories/_ajax
+    defaults: { _controller: "AppBundle:Seccion:_categories" }
+
+get-category:
+    path:     /get-category
+    defaults: { _controller: "AppBundle:Seccion:getCategory" }
+    methods:  [POST]
+
+save-category:
+    path:     /save-category
+    defaults: { _controller: "AppBundle:Seccion:saveCategory" }
+    methods:  [POST]
+
+delete-category:
+    path:     /category/delete
+    defaults: { _controller: "AppBundle:Seccion:deleteCategory" }
+    methods:  [POST, DELETE]
+
+images:
+    path:     /images
+    defaults: { _controller: "AppBundle:Seccion:images" }
+
+_images:
+    path:     /images/_ajax
+    defaults: { _controller: "AppBundle:Seccion:_images" }
+
+save-image:
+    path:     /save-image
+    defaults: { _controller: "AppBundle:Seccion:saveImage" }
+    methods:  [POST]
+
+get-categories-by-seccion:
+    path:     /get-categories-by-seccion
+    defaults: { _controller: "AppBundle:Seccion:getCategoriesBySeccion" }
+    methods:  [POST]

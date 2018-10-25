@@ -1,0 +1,47 @@
+menu:
+    Title: 'Memories Shop'
+    Home: Home
+    Contact: 'Our Ubication & Contact'
+    Backend: Manager
+    Ofertas: Our Offerts
+    Logoff: Log off
+
+carusel:
+    title: '“MEMORIES” SHOP'
+    libreria: 'LIBRARY & ANTIQUES'
+    antiguedades: 'LIBRARY & ANTIQUES'
+
+image:
+    click: 'View enlarged Image'
+
+Categori: Category
+
+Product: Products
+
+Offers: THEMES
+
+Close: Are you sure log off?
+Carusel :
+   off: 'off'
+Contacto:
+   Nosotros: 'You see in'
+   Direccion: 'Address'
+   DireccionValor: 'Animas Street # 57 between Prado Avenue (Paseo de Martí) and Zulueta Street. Old Havana, 10 100, Cuba.'
+   Horario: 'Opening Hours'
+   HorarioVal: 'Monday to Saturday 9:30 am to 5:00 pm'
+   SendEmail: 'SEND AN E-MAIL'
+   Telefono: 'Phone'
+   Trip: 'Go Trip Advisor'
+   UserName: 'Username'
+   Email: 'Email'
+   Body: 'Email Body'
+   Send: 'Send'
+   Cancel: 'Cancel'
+   EnviarCorreo: 'Sending Email'
+   ExitoCorreo: 'Send Email Success'
+   ErrorCorreo: 'Sorry, We hava a error, try again '
+
+Ofertas:
+   Procesando: 'Loading Gallery...'
+
+MensajeEmail: 'Thanks for contact. Mail. Telf: (+53) 78625153'

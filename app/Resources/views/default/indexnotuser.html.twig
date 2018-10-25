@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <style>
+
+
+
+        .activeLink span {
+            color: #337ab7 !important;
+            font-weight: bold !important;
+        }
+        .carousel-caption{
+            top:35% !important;
+
+        }
+
+        .carousel-caption h3{
+            font-size: 5rem !important;
+            font-wight: bolder !important;
+
+
+        }
+        .carousel-caption p{
+            margin-top:0px;
+            font-size: 40px;
+        }
+        .first .carousel-caption {
+            right:0px;
+            margin-right:5%;
+        }
+        .last .carousel-caption{
+            margin-left:5%;
+            left: 0px;
+        }
+
+    </style>
+    <div id="carouselFade" class="carousel slide carousel-fade" data-ride="carousel">
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+
+            <div class="item active first">
+                <div class="carousel-caption">
+                    <h3 style="text-align: right;">{{ 'carusel.title' | trans }}</h3>
+                    <p style="text-align: right;">{{ 'carusel.libreria' | trans }}</p>
+                </div>
+            </div>
+            <div class="item last">
+                <div class="carousel-caption text-align-left">
+                    <h3 style="text-align: left;">{{ 'carusel.title' | trans }}</h3>
+                    <p style="text-align: left;">{{ 'carusel.antiguedades' | trans }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+
+    </div><!-- /.carousel -->
+
+
+    <div class="container contenido text-justify">
+
+        {{ tienda.Descripcion  | raw }}
+
+    </div>
+{% endblock %}

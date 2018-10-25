@@ -1,0 +1,171 @@
+/*
+ * Globals
+ */
+
+/* Links */
+a,
+a:focus,
+a:hover {
+  color: #fff !important ;
+
+
+}
+
+
+/* Custom default button */
+.btn-default,
+.btn-default:hover,
+.btn-default:focus {
+  color: #333 !important;
+  text-shadow: none !important; /* Prevent inheritence from `body` */
+  background-color: #fff !important;
+  border: 1px solid #fff !important;
+}
+
+
+/*
+ * Base structure
+ */
+
+html,
+body {
+  height: 100% !important;
+  background-color: #333 !important;
+}
+body {
+  color: #fff !important;
+  text-align: center !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,.5) !important;
+}
+
+/* Extra markup and styles for table-esque vertical and horizontal centering */
+.site-wrapper {
+  display: table !important;
+  width: 100% !important;
+  height: 100% !important; /* For at least Firefox */
+  min-height: 100% !important;
+  -webkit-box-shadow: inset 0 0 100px rgba(0,0,0,.5) !important;
+          box-shadow: inset 0 0 100px rgba(0,0,0,.5) !important;
+}
+.site-wrapper-inner {
+  display: table-cell !important;
+  vertical-align: top !important;
+}
+.cover-container {
+  margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+/* Padding for spacing */
+.inner {
+  padding: 30px !important;
+}
+
+
+/*
+ * Header
+ */
+.masthead-brand {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+.masthead-nav > li {
+  display: inline-block !important;
+}
+.masthead-nav > li + li {
+  margin-left: 20px !important;
+}
+.masthead-nav > li > a {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  color: #fff !important; /* IE8 proofing */
+  color: rgba(255,255,255,.75) !important;
+  border-bottom: 2px solid transparent !important;
+}
+.masthead-nav > li > a:hover,
+.masthead-nav > li > a:focus {
+  background-color: transparent !important;
+  border-bottom-color: #a9a9a9 !important;
+  border-bottom-color: rgba(255,255,255,.25) !important;
+}
+.masthead-nav > .active > a,
+.masthead-nav > .active > a:hover,
+.masthead-nav > .active > a:focus {
+  color: #fff !important;
+  border-bottom-color: #fff !important;
+}
+
+@media (min-width: 768px) {
+  .masthead-brand {
+    float: left !important;
+  }
+  .masthead-nav {
+    float: right !important;
+  }
+}
+
+
+/*
+ * Cover
+ */
+
+.cover {
+  padding: 10px 20px !important;
+  background-color: #5a5a5a;
+  border-radius: 5px;
+  opacity: 0.8;
+  box-shadow: black 0 2px 6px 0;
+
+}
+.cover .btn-lg {
+  padding: 10px 20px !important;
+  font-weight: bold !important;
+}
+
+
+/*
+ * Footer
+ */
+
+.mastfoot {
+  color: #999 !important; /* IE8 proofing */
+  color: rgba(255,255,255,.5) !important;
+}
+
+
+/*
+ * Affix and center
+ */
+
+@media (min-width: 768px) {
+  /* Pull out the header and footer */
+  .masthead {
+    position: fixed !important;
+    top: 0 !important;
+  }
+  .mastfoot {
+    position: fixed !important;
+    bottom: 0 !important;
+  }
+  /* Start the vertical centering */
+  .site-wrapper-inner {
+    vertical-align: middle !important;
+  }
+  /* Handle the widths */
+  .masthead,
+  .mastfoot,
+  .cover-container {
+    width: 100% !important; /* Must be percentage or pixels for horizontal alignment */
+  }
+}
+
+@media (min-width: 992px) {
+  .masthead,
+  .mastfoot,
+  .cover-container {
+    width: 700px !important;
+  }
+}

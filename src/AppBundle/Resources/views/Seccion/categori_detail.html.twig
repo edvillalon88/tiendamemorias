@@ -1,0 +1,59 @@
+<style>
+.cbp-caption-activeWrap{
+    background-color: rgba(0, 0, 0, 0.55) !important;
+}
+</style>
+<h3 class="title" style="text-align: center">
+    {{ cat.titulo }}
+</h3>
+<div class="description text-justify">
+    {{ cat.descripcion | raw }}
+</div>
+<br/>
+<br/>
+<div id="js-grid-full-width" class="cbp">
+    {% for img in entity.imagenes %}
+    <div class="cbp-item">
+        <a href="{{ asset("uploads")}}/{{ entity.id }}/{{ img.nombre }}" class="cbp-caption cbp-lightbox" data-title="{{ cat.titulo }}">
+            <div class="cbp-caption-defaultWrap">
+                <img src="{{ web_image('uploads/' ~ entity.id ~ '/' ~ img.nombre).resize(entity.getImgRow()) }}" alt=""> </div>
+            <div class="cbp-caption-activeWrap text-left">
+                <div class="cbp-l-caption-alignLeft">
+                    <div class="cbp-l-caption-body">
+                        <div class="cbp-l-caption-title">{{ 'image.click' | trans }}</div>
+                        <div class="cbp-l-caption-desc">{{ img.texto }}</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    {%  endfor %}
+
+</div>
+
+
+<script  type="text/javascript">
+    $('#js-grid-full-width').cubeportfolio({
+        filters: '#js-filters-full-width',
+        loadMore: '#js-loadMore-full-width',
+        loadMoreAction: 'auto',
+        layoutMode: 'mosaic',
+        sortToPreventGaps: true,
+        defaultFilter: '*',
+        animationType: 'fadeOutTop',
+        gapHorizontal: 0,
+        gapVertical: 0,
+        gridAdjustment: 'responsive',
+
+        caption: 'fadeIn',
+        displayType: 'lazyLoading',
+        displayTypeSpeed: 100,
+
+        // lightbox
+        lightboxDelegate: '.cbp-lightbox',
+        lightboxGallery: true,
+        lightboxTitleSrc: 'data-title',
+
+    });
+</script>
+
